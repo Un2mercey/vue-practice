@@ -1,15 +1,13 @@
 <template>
     <div class="post">
         <div>
-            <h1 class="title">{{ $props.post.title }}</h1>
-            <div>id: {{ $props.post.id }}</div>
-            <div>userId: {{ $props.post.userId }}</div>
-            <div>body {{ $props.post.body }}</div>
+            <h1 class="title">{{ post.title }}</h1>
+            <div>id: {{ post.id }}</div>
+            <div>userId: {{ post.userId }}</div>
+            <div>body {{ post.body }}</div>
         </div>
         <div class="post__buttons">
-            <StyledButton
-                @click="$emit('removePost', $props.post)"
-            >
+            <StyledButton @click="$emit('removePost', post)">
                 Delete
             </StyledButton>
         </div>
@@ -48,6 +46,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
 }
 
 .title {
@@ -56,7 +55,7 @@ export default {
     font-size: 24px;
     margin-bottom: 12px;
     color: teal;
-    text-shadow: 0 1px 7px rgba(116, 3, 173, 0.59);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .7);
 }
 
 .post__buttons {

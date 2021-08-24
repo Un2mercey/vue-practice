@@ -1,10 +1,19 @@
 <template>
-    <StyledSpinner :is-loading="isFetched" />
-    <div style="padding: 20px">
+    <StyledSpinner :isLoading="isFetching" />
+    <StyledDialog v-model:isOpened="isDialogVisible">
         <PostForm @postCreated="onPostCreated" />
+    </StyledDialog>
+    <div style="padding: 20px">
+        <div class="tittle">
+            <h1>Articles</h1>
+            <StyledButton @click="onAddPost">
+                Add post
+            </StyledButton>
+        </div>
         <PostList :posts="posts"
+                  :isPostsLoading="isFetching"
                   @removePost="onRemovePost"
-                  @fetchPosts="onFetchPosts"
+                  @fetchPosts="loadPosts"
         />
     </div>
 </template>
@@ -21,42 +30,54 @@ export default {
     data() {
         return {
             posts: [],
-            isFetched: false
+            isFetching: false,
+            isDialogVisible: false
         };
-    },
-    async created() {
-        this.isFetched = true
-        try {
-            this.posts = await fetchPosts(5);
-            this.isFetched = false;
-        } catch (e) {
-            console.error(e);
-            this.isFetched = false;
-        }
     },
     methods: {
         onPostCreated(newPost) {
-            if (validatePost(newPost)) {
-                this.posts.push(newPost);
-            }
+            this.isFetching = true;
+            setTimeout(() => {
+                if (validatePost(newPost)) {
+                    this.posts.push(newPost);
+                }
+                this.isFetching = false;
+                this.isDialogVisible = false;
+            }, 1500);
         },
         onRemovePost(post) {
             this.posts.splice(this.posts.indexOf(post), 1);
         },
-        async onFetchPosts() {
-            this.isFetched = true
+        onAddPost() {
+            this.isDialogVisible = true;
+        },
+        async loadPosts(limit = 10) {
+            this.isFetching = true;
             try {
-                this.posts = await fetchPosts(15);
-                this.isFetched = false;
+                setTimeout(async () => {
+                    const response = await fetchPosts(limit);
+                    this.posts = response.data;
+                    this.isFetching = false;
+                }, 1500);
             } catch (e) {
                 console.error(e);
-                this.isFetched = false;
+                this.isFetching = false;
             }
         }
+    },
+    mounted() {
+        this.loadPosts(5);
     }
 }
 </script>
 
 <style scoped>
-
+h1 {
+    color: teal;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .7);
+}
+.tittle {
+    display: flex;
+    justify-content: space-between;
+}
 </style>

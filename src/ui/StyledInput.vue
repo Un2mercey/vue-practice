@@ -1,8 +1,8 @@
 <template>
     <input class="input"
-           :type=$props.type
-           :placeholder="$props.placeholder"
-           :value="$props.modelValue"
+           :type=type
+           :placeholder="placeholder"
+           :value="modelValue"
            @input="updateInput"
     >
 </template>
@@ -42,5 +42,6 @@ export default {
     border: 1px solid teal;
     padding: 10px 15px;
     margin-bottom: 12px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
 }
 </style>

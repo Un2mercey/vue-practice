@@ -1,14 +1,13 @@
 <template>
     <div v-if="posts.length">
-        <h3>Some posts</h3>
         <PostItem
-            v-for="post in $props.posts"
+            v-for="post in posts"
             :post="post"
             :key="post.id"
             @removePost="$emit('removePost', $event)"
         />
     </div>
-    <div class="no-posts" v-else>
+    <div class="no-posts" v-else-if="!isPostsLoading">
         <h2>No posts found.</h2>
         <StyledButton @click="$emit('fetchPosts')">
             Fetch posts
@@ -27,6 +26,10 @@ export default {
             type: Array,
             required: true,
             validator: (v) => v.length === v.map(validatePost).filter(Boolean).length
+        },
+        isPostsLoading: {
+            type: Boolean,
+            required: true
         }
     },
     emits: ['removePost', 'fetchPosts']

@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper" v-if="$props.isLoading">
+    <div class="wrapper" v-if="isLoading">
         <div class="lds-spinner">
             <div></div>
             <div></div>
@@ -23,7 +23,8 @@ export default {
     props: {
         isLoading: {
             type: Boolean,
-            required: true
+            required: true,
+            default: false
         }
     }
 }
