@@ -7,18 +7,24 @@
             <div>body {{ post.body }}</div>
         </div>
         <div class="post__buttons">
-            <StyledButton @click="$emit('removePost', post)">
-                Delete
-            </StyledButton>
+            <styledButton
+                @click="removePost"
+                v-text="'Delete'"
+            />
+            <styledButton
+                @click="openPost"
+                v-text="'Open'"
+            />
         </div>
     </div>
 </template>
 
 <script>
-import {validatePost} from '@/utils/post-validator';
-
+import {validatePost} from "@/utils/post-validator";
+import styledButton from "@/ui/styled-button";
 export default {
-    name: 'PostItem',
+    name: "PostItem",
+    components: { styledButton },
     props: {
         post: {
             type: Object,
@@ -34,7 +40,15 @@ export default {
             validator: validatePost
         }
     },
-    emits: ['removePost']
+    emits: ["removePost"],
+    methods: {
+        removePost() {
+            this.$emit("removePost", this.post);
+        },
+        openPost() {
+            this.$router.push(`/post/${this.post.id}`);
+        }
+    }
 };
 </script>
 
@@ -64,4 +78,10 @@ export default {
     align-items: center;
     justify-content: space-around;
 }
+
+button {
+    margin: 0 0 4px 0;
+    width: 80px;
+}
+
 </style>

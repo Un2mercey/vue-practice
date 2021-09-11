@@ -1,14 +1,15 @@
 <template>
-    <PostsComponent />
+    <div class="app">
+        <navbar />
+        <router-view />
+    </div>
 </template>
 
-<script >
-import PostsComponent from '@/components/posts/PostsComponent';
-
+<script>
+import navbar from "@/components/navbar";
 export default {
-    name: 'App',
-    components: { PostsComponent },
-};
+    components: { navbar }
+}
 </script>
 
 <style>
@@ -17,4 +18,10 @@ export default {
     padding: 0;
     box-sizing: border-box;
 }
+
+h1 {
+    color: teal;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .7);
+}
+
 </style>

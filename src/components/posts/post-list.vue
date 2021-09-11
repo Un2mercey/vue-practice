@@ -1,28 +1,29 @@
 <template>
     <div v-if="posts.length">
         <transition-group name="post-list">
-            <PostItem
+            <postItem
                 v-for="post in posts"
                 :post="post"
                 :key="post.id"
-                @removePost="$emit('removePost', $event)"
+                @removePost="onRemovePost"
             />
         </transition-group>
     </div>
     <div class="no-posts" v-else-if="!isPostsLoading && !isFiltering">
-        <h2>No posts found.</h2>
-        <StyledButton @click="$emit('fetchPosts')">
-            Fetch posts
-        </StyledButton>
+        <h2 v-text="'No posts found.'" />
+        <styledButton
+            @click="onFetchPosts"
+            v-text="'Fetch posts'"
+        />
     </div>
 </template>
 
 <script>
-import PostItem from './PostItem';
-import { validatePost } from '@/utils/post-validator';
-
+import postItem from "./post-item";
+import styledButton from "@/ui/styled-button";
+import { validatePost } from "@/utils/post-validator";
 export default {
-    components: { PostItem },
+    components: { postItem, styledButton },
     props: {
         posts: {
             type: Array,
@@ -38,7 +39,15 @@ export default {
             required: true
         }
     },
-    emits: ['removePost', 'fetchPosts']
+    emits: ["removePost", "fetchPosts"],
+    methods: {
+        onRemovePost(event) {
+            this.$emit("removePost", event);
+        },
+        onFetchPosts() {
+            this.$emit("fetchPosts");
+        }
+    }
 };
 </script>
 

@@ -17,7 +17,6 @@
 
 <script>
 export default {
-    name: 'StyledSelect',
     props: {
         modelValue: {
             type: String

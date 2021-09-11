@@ -9,7 +9,6 @@
 
 <script>
 export default {
-    name: 'StyledInput',
     props: {
         type: {
             type: String,
@@ -24,8 +23,7 @@ export default {
             required: false
         },
         modelValue: {
-            type: [String, Number, File, Boolean],
-            required: true
+            type: [String, Number, File, Boolean]
         }
     },
     methods: {
