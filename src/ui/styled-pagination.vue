@@ -1,6 +1,6 @@
 <template>
     <div class="pagination">
-        <StyledButton
+        <styledButton
             v-for="page in totalPages"
             :key="page"
             :class="{
@@ -9,13 +9,15 @@
             @click="$emit('pageChange', page)"
         >
             {{page}}
-        </StyledButton>
+        </styledButton>
     </div>
 </template>
 
 <script>
+import styledButton from "@/ui/styled-button";
+
 export default {
-    name: 'StyledPagination',
+    components: { styledButton },
     props: {
         totalPages: {
             type: Number,

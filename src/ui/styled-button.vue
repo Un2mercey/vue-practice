@@ -1,12 +1,20 @@
 <template>
-    <button class="btn">
+    <button class="btn"
+            :disabled="isDisabled"
+    >
         <slot></slot>
     </button>
 </template>
 
 <script>
 export default {
-    name: 'StyledButton'
+    props: {
+        isDisabled: {
+            type: Boolean,
+            required: false,
+            default: false
+        }
+    }
 }
 </script>
 
@@ -14,7 +22,7 @@ export default {
 .btn {
     align-self: flex-end;
     padding: 10px 15px;
-    background: none;
+    background: white;
     color: teal;
     border: 1px solid teal;
     box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
@@ -24,5 +32,13 @@ export default {
 
 .btn:hover {
     cursor: pointer;
+    background: teal;
+    color: white;
+
+}
+
+.btn:disabled {
+    background: rgba(220, 20, 60, 0.25);
+    cursor: not-allowed;
 }
 </style>

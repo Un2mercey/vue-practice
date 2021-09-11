@@ -1,45 +1,49 @@
 <template>
-    <StyledSpinner :isLoading="isFetching" />
-    <StyledDialog v-model:isOpened="isDialogVisible">
-        <PostForm @postCreated="onPostCreated" />
-    </StyledDialog>
+    <styledSpinner :isLoading="isFetching" />
+    <styledDialog
+        :isOpened="isDialogVisible"
+        @hideDialog="isDialogVisible = false"
+    >
+        <postForm @postCreated="onPostCreated" />
+    </styledDialog>
     <div style="padding: 20px 20px 80px;">
         <div class="tittle">
-            <h1>Articles</h1>
-            <StyledInput
+            <h1 v-text="'Articles'" />
+            <styledInput
                 v-model="searchQuery"
                 placeholder="Filter by"
                 class="tittle__post-filter"
+                type="text"
             />
             <div class="tittle__buttons">
-                <StyledButton
-                    @click="onAddPost"
+                <styledButton
+                    @click="openAddPostModal"
                     style="margin-right: 15px"
-                >
-                    Add post
-                </StyledButton>
-                <StyledSelect
+                    v-text="'Add post'"
+                />
+                <styledSelect
                     v-model="selectedPagination"
                     :options="paginationOptions"
                     style="margin-right: 15px"
                 >
                     Pagination variant
-                </StyledSelect>
-                <StyledSelect
+                </styledSelect>
+                <styledSelect
                     v-model="selectedSort"
                     :options="sortOptions"
                 >
                     Sort by
-                </StyledSelect>
+                </styledSelect>
             </div>
         </div>
-        <PostList :posts="filteredPosts"
-                  :isPostsLoading="isFetching"
-                  :isFiltering="!!searchQuery.trim().length"
-                  @removePost="onRemovePost"
-                  @fetchPosts="loadPosts"
+        <postList
+            :posts="filteredPosts"
+            :isPostsLoading="isFetching"
+            :isFiltering="!!searchQuery.trim().length"
+            @removePost="onRemovePost"
+            @fetchPosts="loadPosts"
         />
-        <StyledPagination
+        <styledPagination
             v-if="selectedPagination === 'classic'"
             :totalPages="totalPages"
             :currentPage="currentPage"
@@ -53,43 +57,57 @@
 </template>
 
 <script>
-import PostForm from '@/components/posts/PostForm';
-import PostList from '@/components/posts/PostList';
-import { fetchPosts } from '@/service/post.service';
-import { validatePost } from '@/utils/post-validator';
+import postForm from "@/components/posts/post-form";
+import postList from "@/components/posts/post-list";
+import styledSpinner from "@/ui/styled-spinner";
+import styledDialog from "@/ui/styled-dialog";
+import styledInput from "@/ui/styled-input";
+import styledButton from "@/ui/styled-button";
+import styledSelect from "@/ui/styled-select";
+import styledPagination from "@/ui/styled-pagination";
+import { fetchPosts } from "@/service/post.service";
+import { validatePost } from "@/utils/post-validator";
 
 export default {
-    name: 'PostsComponent',
-    components: { PostList, PostForm },
+    components: {
+        postForm,
+        postList,
+        styledSpinner,
+        styledDialog,
+        styledInput,
+        styledButton,
+        styledSelect,
+        styledPagination
+    },
     data() {
         return {
             posts: [],
             isFetching: false,
             isDialogVisible: false,
-            selectedSort: '',
-            selectedPagination: 'endless',
-            searchQuery: '',
+            selectedSort: "",
+            selectedPagination: "endless",
+            searchQuery: "",
             currentPage: 1,
             perPage: 10,
             totalPages: 0,
             paginationOptions: [
                 {
-                    value: 'classic',
-                    name: 'Classic pagination'
+                    value: "classic",
+                    name: "Classic pagination"
                 },
                 {
-                    value: 'endless',
-                    name: 'Endless ribbon'
+                    value: "endless",
+                    name: "Endless ribbon"
                 }
             ],
             sortOptions: [
                 {
-                    value: 'title',
-                    name: 'Sort by title'
+                    value: "title",
+                    name: "Sort by title"
                 },
                 {
-                    value: 'id',
-                    name: 'Sort by id'
+                    value: "id",
+                    name: "Sort by id"
                 }
             ],
         };
@@ -98,7 +116,7 @@ export default {
         sortedPosts() {
             return [...this.posts]
                 .sort((a, b) => {
-                    if (this.selectedSort === 'title') {
+                    if (this.selectedSort === "title") {
                         return a[this.selectedSort]?.localeCompare(b[this.selectedSort]);
                     }
                     return a[this.selectedSort] > b[this.selectedSort];
@@ -122,17 +140,20 @@ export default {
         onRemovePost(post) {
             this.posts.splice(this.posts.indexOf(post), 1);
         },
-        onAddPost() {
+        openAddPostModal() {
             this.isDialogVisible = true;
         },
         subscribeOnScroll() {
             const options = {
-                rootMargin: '0px',
+                rootMargin: "0px",
                 threshold: 1.0
             };
 
-            const callback = (entries, observer) => {
-                if (entries[0].isIntersecting && this.currentPage < this.totalPages) {
+            const callback = (entries) => {
+                if (entries[0].isIntersecting
+                    && this.currentPage < this.totalPages
+                    && !this.searchQuery
+                ) {
                     this.loadPosts(++this.currentPage);
                 }
             };
@@ -145,15 +166,15 @@ export default {
             try {
                 const response = await fetchPosts(page, this.perPage);
                 switch (this.selectedPagination) {
-                    case 'endless':
+                    case "endless":
                         this.posts = [...this.posts, ...response.data];
                         break;
-                    case 'classic':
+                    case "classic":
                         this.posts = response.data;
                         break;
                 }
                 this.currentPage = page;
-                this.totalPages = Math.ceil(response.headers['x-total-count'] / this.perPage);
+                this.totalPages = Math.ceil(response.headers["x-total-count"] / this.perPage);
                 this.isFetching = false;
             } catch (e) {
                 console.error(e);
@@ -178,10 +199,6 @@ export default {
 </script>
 
 <style scoped>
-h1 {
-    color: teal;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, .7);
-}
 .tittle {
     display: flex;
     justify-content: space-between;

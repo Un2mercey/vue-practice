@@ -1,15 +1,15 @@
-import StyledButton from '@/ui/StyledButton';
-import StyledInput from '@/ui/StyledInput';
-import StyledSpinner from '@/ui/StyledSpinner';
-import StyledDialog from '@/ui/StyledDialog';
-import StyledSelect from '@/ui/StyledSelect';
-import StyledPagination from '@/ui/StyledPagination';
+import styledButton from '@/ui/styled-button';
+import styledInput from '@/ui/styled-input';
+import styledSpinner from '@/ui/styled-spinner';
+import styledDialog from '@/ui/styled-dialog';
+import styledSelect from '@/ui/styled-select';
+import styledPagination from '@/ui/styled-pagination';
 
 export default [
-    StyledButton,
-    StyledInput,
-    StyledSpinner,
-    StyledDialog,
-    StyledSelect,
-    StyledPagination
+    styledButton,
+    styledInput,
+    styledSpinner,
+    styledDialog,
+    styledSelect,
+    styledPagination
 ];

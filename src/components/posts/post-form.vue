@@ -1,30 +1,37 @@
 <template>
     <form @submit.prevent>
         <h1>Create post</h1>
-        <StyledInput
-            :type="'text'"
-            :placeholder="'Title'"
+        <styledInput
+            type="text"
+            placeholder="Title"
             v-model="newPost.title" />
-        <StyledInput
-            :type="'text'"
-            :placeholder="'Description'"
+        <styledInput
+            type="text"
+            placeholder="Description"
             v-model="newPost.description" />
-        <StyledButton
+        <styledButton
+            :isDisabled="!newPost.title || !newPost.description"
             @click="createPost"
         >
             Create
-        </StyledButton>
+        </styledButton>
     </form>
 </template>
 
 <script>
+import styledInput from "@/ui/styled-input";
+import styledButton from "@/ui/styled-button";
 export default {
-    name: 'PostForm',
+    name: "PostForm",
+    components: {
+        styledInput,
+        styledButton
+    },
     data() {
         return {
             newPost: {
-                title: '',
-                description: ''
+                title: "",
+                description: ""
             }
         };
     },
@@ -36,12 +43,12 @@ export default {
                 title: this.newPost.title,
                 body: this.newPost.description
             };
-            this.newPost.title = '';
-            this.newPost.description = '';
-            this.$emit('postCreated', createdPost);
+            this.newPost.title = "";
+            this.newPost.description = "";
+            this.$emit("postCreated", createdPost);
         }
     },
-    emits: ['postCreated']
+    emits: ["postCreated"]
 };
 </script>
 

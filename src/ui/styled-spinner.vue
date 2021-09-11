@@ -19,7 +19,6 @@
 
 <script>
 export default {
-    name: 'StyledSpinner',
     props: {
         isLoading: {
             type: Boolean,

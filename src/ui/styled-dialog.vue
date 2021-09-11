@@ -4,14 +4,13 @@
          @click="hideDialog"
     >
         <div class="dialog__content" @click.stop>
-            <slot></slot>
+            <slot />
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    name: 'StyledDialog',
     props: {
         isOpened: {
             type: Boolean,
@@ -19,9 +18,10 @@ export default {
             default: false
         }
     },
+    emits: ["hide-dialog"],
     methods: {
         hideDialog() {
-            this.$emit('update:isOpened', false);
+            this.$emit("hide-dialog");
         }
     }
 }

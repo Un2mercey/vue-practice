@@ -9,3 +9,7 @@ export const fetchPosts = (page, perPage) => {
         }
     });
 };
+
+export const getPost = (id) => {
+    return axios.get(`${POST_URI}/${id}`);
+}
