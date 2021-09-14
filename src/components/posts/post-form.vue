@@ -4,23 +4,27 @@
         <styledInput
             type="text"
             placeholder="Title"
-            v-model="newPost.title" />
+            v-model="newPost.title"
+            v-focus
+        />
         <styledInput
             type="text"
             placeholder="Description"
-            v-model="newPost.description" />
+            v-model="newPost.description"
+        />
         <styledButton
             :isDisabled="!newPost.title || !newPost.description"
             @click="createPost"
-        >
-            Create
-        </styledButton>
+            v-text="'Create'"
+        />
     </form>
 </template>
 
 <script>
 import styledInput from "@/ui/styled-input";
 import styledButton from "@/ui/styled-button";
+import focusDirective from "@/directives/focus.directive";
+
 export default {
     name: "PostForm",
     components: {
@@ -48,7 +52,10 @@ export default {
             this.$emit("postCreated", createdPost);
         }
     },
-    emits: ["postCreated"]
+    emits: ["postCreated"],
+    directives: {
+        focus: focusDirective
+    }
 };
 </script>
 
