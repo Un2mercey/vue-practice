@@ -14,6 +14,7 @@
                 placeholder="Filter by"
                 class="tittle__post-filter"
                 type="text"
+                v-focus
             />
             <div class="tittle__buttons">
                 <styledButton
@@ -65,6 +66,7 @@ import styledInput from "@/ui/styled-input";
 import styledButton from "@/ui/styled-button";
 import styledSelect from "@/ui/styled-select";
 import styledPagination from "@/ui/styled-pagination";
+import focusDirective from "@/directives/focus.directive";
 import { fetchPosts } from "@/service/post.service";
 import { validatePost } from "@/utils/post-validator";
 
@@ -189,11 +191,14 @@ export default {
         this.subscribeOnScroll();
     },
     watch: {
-        selectedPagination(val) {
+        selectedPagination() {
             if (this.currentPage !== 1) {
                 this.loadPosts(1);
             }
         }
+    },
+    directives: {
+        focus: focusDirective
     }
 }
 </script>
