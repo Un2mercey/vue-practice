@@ -1,8 +1,6 @@
 <template>
     <styledSpinner :isLoading="isFetching" />
-    <styledDialog
-        :isOpened="isDialogVisible"
-        @hideDialog="isDialogVisible = false"
+    <styledDialog v-model:isShown="isDialogVisible"
     >
         <postForm @postCreated="onPostCreated" />
     </styledDialog>
