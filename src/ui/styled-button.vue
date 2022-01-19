@@ -2,7 +2,7 @@
     <button class="btn"
             :disabled="isDisabled"
     >
-        <slot></slot>
+        <slot />
     </button>
 </template>
 
@@ -34,7 +34,6 @@ export default {
     cursor: pointer;
     background: teal;
     color: white;
-
 }
 
 .btn:disabled {
